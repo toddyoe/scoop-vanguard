@@ -1,42 +1,97 @@
-# Scoop Bucket Template
+# 🍨 Scoop-Vanguard 🍨
 
-<!-- Uncomment the following line after replacing placeholders -->
-<!-- [![Tests](https://github.com/<username>/<bucketname>/actions/workflows/ci.yml/badge.svg)](https://github.com/<username>/<bucketname>/actions/workflows/ci.yml) [![Excavator](https://github.com/<username>/<bucketname>/actions/workflows/excavator.yml/badge.svg)](https://github.com/<username>/<bucketname>/actions/workflows/excavator.yml) -->
+[![Excavator](https://github.com/toddyoe/scoop-vanguard/actions/workflows/ci.yml/badge.svg)](https://github.com/toddyoe/scoop-vanguard/actions/workflows/ci.yml)
+[![license](https://img.shields.io/github/license/toddyoe/scoop-vanguard)](https://github.com/toddyoe/scoop-vanguard/blob/master/LICENSE)
+[![code size](https://img.shields.io/github/languages/code-size/toddyoe/scoop-vanguard.svg)](https://img.shields.io/github/languages/code-size/toddyoe/scoop-vanguard.svg)
+[![repo size](https://img.shields.io/github/repo-size/toddyoe/scoop-vanguard.svg)](https://img.shields.io/github/repo-size/toddyoe/scoop-vanguard.svg)
 
-Template bucket for [Scoop](https://scoop.sh), the Windows command-line installer.
+专注于Nightly、Canary 及 Beta 版的 Windows 最佳包管理器 [Scoop](https://github.com/ScoopInstaller/Scoop) 扩展库
 
-## How do I use this template?
+对于熟悉 Scoop 的用户：
 
-1. Generate your own copy of this repository with the "Use this template"
-   button.
-2. Allow all GitHub Actions:
-   - Navigate to `Settings` - `Actions` - `General` - `Actions permissions`.
-   - Select `Allow all actions and reusable workflows`.
-   - Then `Save`.
-3. Allow writing to the repository from within GitHub Actions:
-   - Navigate to `Settings` - `Actions` - `General` - `Workflow permissions`.
-   - Select `Read and write permissions`.
-   - Then `Save`.
-4. Document the bucket in `README.md`.
-5. Replace the placeholder repository string in `bin/auto-pr.ps1`.
-6. Create new manifests by copying `bucket/app-name.json.template` to
-   `bucket/<app-name>.json`.
-7. Commit and push changes.
-8. If you'd like your bucket to be indexed on `https://scoop.sh`, add the
-   topic `scoop-bucket` to your repository.
-
-## How do I install these manifests?
-
-After manifests have been committed and pushed, run the following:
-
-```pwsh
-scoop bucket add <bucketname> https://github.com/<username>/<bucketname>
-scoop install <bucketname>/<manifestname>
+```powershell
+scoop bucket add vanguard https://github.com/toddyoe/scoop-vanguard
 ```
 
-## How do I contribute new manifests?
+# 🏃 开始
 
-To make a new manifest contribution, please read the [Contributing
-Guide](https://github.com/ScoopInstaller/.github/blob/main/.github/CONTRIBUTING.md)
-and [App Manifests](https://github.com/ScoopInstaller/Scoop/wiki/App-Manifests)
-wiki page.
+## 🚲 安装 Scoop
+
+### 💻 步骤 1：在 PowerShell 中打开远程权限
+
+```powershell
+Set-ExecutionPolicy RemoteSigned -scope CurrentUser
+```
+
+### ⚙️ 步骤 2：下载并安装 Scoop
+
+```powershell
+irm get.scoop.sh -outfile 'install.ps1'
+.\install.ps1 -ScoopDir ['Scoop_Path'] -ScoopGlobalDir ['GlobalScoopApps_Path'] -NoProxy
+# 例如
+.\install.ps1 -ScoopDir 'C:\Scoop' -ScoopGlobalDir 'C:\Program Files' -NoProxy
+```
+
+> 如果跳过该步骤，Scoop 将默认把所有用户安装的 App 和 Scoop 本身置于 `c:/users/${user_name}/scoop`
+
+### 📖 步骤 3：通过`scoop help`查看快速上手方法
+
+更多信息，请访问 Scoop 官网 👉 <https://scoop.sh/> 👈
+
+## 🚗 利用扩展库安装 App
+
+### 🚋 步骤 1：安装 Aria2 来加速下载
+
+```powershell
+scoop install aria2
+```
+
+如果使用 VPN，需要通过如下命令关闭 aria2
+
+```powershell
+scoop config aria2-enabled false
+```
+
+### 🎫 步骤 2：安装 Git 来添加新仓库
+
+```powershell
+scoop install git
+```
+
+### ✈️ 步骤 3：添加本仓库并更新，么么哒~ 💋
+
+```powershell
+scoop bucket add vanguard https://github.com/toddyoe/scoop-vanguard
+scoop update
+```
+
+### 🚀 步骤 4：安装 App
+
+#### 使用 `scoop search` 命令搜索 App 的具体名称
+
+```powershell
+scoop search <app_name>
+```
+
+#### 利用插件 `scoop-completion` 协助安装
+
+```powershell
+scoop install scoop-completion
+scoop install <app_name>
+```
+
+> 使用`scoop-completion`：键入 App 名称的前几个字母后敲击`tab`键进行补全
+
+## 📝 杂项
+
+### Aria2 的参数自定义
+
+```powershell
+# aria2 在 Scoop 中默认开启
+scoop config aria2-enabled true
+# 关于以下参数的作用，详见 aria2 的相关资料
+scoop config aria2-retry-wait 4
+scoop config aria2-split 16
+scoop config aria2-max-connection-per-server 16
+scoop config aria2-min-split-size 4M
+```
